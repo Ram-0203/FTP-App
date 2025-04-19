@@ -55,7 +55,12 @@ export default function UploadPage() {
         const result = await response.json();
 
         if (response.ok) {
-          setSuccessMessage(`✅ Uploaded! Share link: ${result.ShareLink || 'Check email or system for delivery.'}`);
+          setSuccessMessage(
+            result.ShareLink
+              ? `✅ Uploaded! Share link: <a href="${result.ShareLink}" target="_blank" class="text-blue-600 underline">${result.ShareLink}</a>`
+              : '✅ Uploaded! Check email or system for delivery.'
+          );
+          
           setName('');
           setEmail('');
           setPassword('');
@@ -165,9 +170,10 @@ export default function UploadPage() {
 
         {/* Success Message */}
         {successMessage && (
-          <div className="mt-6 p-4 bg-green-100 text-green-800 text-sm rounded-lg">
-            {successMessage}
-          </div>
+          <div
+          className="mt-6 p-4 bg-green-100 text-green-800 text-sm rounded-lg"
+          dangerouslySetInnerHTML={{ __html: successMessage } as { __html: string }}
+        ></div>        
         )}
       </main>
     </div>
