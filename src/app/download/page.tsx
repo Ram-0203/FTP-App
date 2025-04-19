@@ -50,9 +50,13 @@ export default function DownloadPage() {
       document.body.removeChild(link);
 
       setDownloaded(true);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Download failed.');
-    } finally {
+    }  catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(err.message);
+      } else {
+        console.error('Unknown error', err);
+      }
+     } finally {
       setLoading(false);
     }
   };
